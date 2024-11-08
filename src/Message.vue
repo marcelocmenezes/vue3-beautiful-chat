@@ -50,6 +50,11 @@
         :data="message.data"
         :message-colors="messageColors"
       />
+      <AudioMessage
+        v-else-if="message.type === 'audio'"
+        :data="message.data"
+        :message-colors="messageColors"
+      />
       <TypingMessage v-else-if="message.type === 'typing'" :message-colors="messageColors" />
       <SystemMessage
         v-else-if="message.type === 'system'"
@@ -64,8 +69,9 @@
 
 <script>
 import TextMessage from './messages/TextMessage.vue'
-import FileMessage from './messages/FileMessage.vue'
 import EmojiMessage from './messages/EmojiMessage.vue'
+import FileMessage from './messages/FileMessage.vue'
+import AudioMessage from './messages/AudioMessage.vue'
 import TypingMessage from './messages/TypingMessage.vue'
 import SystemMessage from './messages/SystemMessage.vue'
 import chatIcon from './assets/chat-icon.svg'
@@ -74,6 +80,7 @@ export default {
   components: {
     TextMessage,
     FileMessage,
+    AudioMessage,
     EmojiMessage,
     TypingMessage,
     SystemMessage
@@ -116,14 +123,20 @@ export default {
     },
     receivedColorsStyle() {
       return {
-        color: this.colors.receivedMessage.text,
-        backgroundColor: this.colors.receivedMessage.bg
+        'color': this.colors.receivedMessage.text,
+        '--player-color-text': this.colors.sentMessage.text,
+        '--player-color-featured': this.colors.sentMessage.text,
+        'backgroundColor': this.colors.receivedMessage.bg,
+        '--player-color-background': this.colors.receivedMessage.bg
       }
     },
     sentColorsStyle() {
       return {
-        color: this.colors.sentMessage.text,
-        backgroundColor: this.colors.sentMessage.bg
+        'color': this.colors.sentMessage.text,
+        '--player-color-text': this.colors.sentMessage.text,
+        '--player-color-featured': this.colors.sentMessage.text,
+        'backgroundColor': this.colors.sentMessage.bg,
+        '--player-color-background': this.colors.sentMessage.bg
       }
     }
   }
@@ -151,6 +164,7 @@ export default {
 
 .sc-message--content.sent {
   justify-content: flex-end;
+  flex-direction: row-reverse;
 }
 
 .sc-message--content.system {
@@ -158,7 +172,8 @@ export default {
 }
 
 .sc-message--content.sent .sc-message--avatar {
-  display: none;
+  margin-left: 15px;
+  margin-right: inherit;
 }
 
 .sc-message--avatar {

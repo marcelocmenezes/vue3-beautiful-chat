@@ -1,6 +1,6 @@
 import Launcher from './Launcher.vue'
 import VTooltip from 'v-tooltip'
-
+import 'material-icons/iconfont/material-icons.css';
 import 'v-tooltip/dist/v-tooltip.css'
 
 import emitter from './emitter'
